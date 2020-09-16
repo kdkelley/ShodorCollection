@@ -1,0 +1,4 @@
+Word,Dot Pattern
+aa.r#wd,
+abolishment,
+yelped,

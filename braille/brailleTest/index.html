@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<html>	
+
+	<head>
+
+		<!--
+		
+		Bug list:
+		1) If there are no words that are smaller than max word length in the dictionary an error is thrown internally but not shown to the user in any way
+		2) If you have two (and only two) adjacent capital letters that are being transcribed then they will take five characters when four characters is possible
+			- (dot 6)(dot 6)(capital letter 1)(capital letter 2)(dots 3 and 6)
+			- (dot 6)(capital letter 1)(dot 6)(capital letter 2)
+		3)
+
+		To implement list:
+		1) adding dot pattern
+		2) adding alerts to replace throwing errors
+		3) to allow for changing of hotkeys
+		4)
+
+		-->
+
+		<title>
+
+			Braille Flashcards
+
+		</title>
+
+		<!--CSS-->
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>!window.jQuery && document.write('<script src="jquery/core/1.9.1/jquery.js"><\/script>')</script>
+		<script src="jquery.hotkeys/jquery.hotkeys.js"></script>
+		<script src='js/Const.js'></script>
+		<script src='js/FileIO.js'></script>
+		<script src='js/Form.js'></script>
+		<script src='js/Hotkeys.js'></script>
+		<script src='js/BrailleConverter.js'></script>
+		<!--User Dictionary requires BrailleConverter and UserDictionaryEntry-->
+		<script src='js/UserDictionary.js'></script>
+		<script src='js/UserDictionaryEntry.js'></script>
+		<script src='js/Audio.js'></script>
+		<!--init is in Flashcards-->
+		<script src='js/Flashcards.js'></script>
+
+	</head>
+	
+	<body onload='Flashcards.init()'>
+		
+		<label for="brailleOutput">Word to guess:</label>
+	
+		<input type='text' tabindex="1" id='brailleOutput'></input>
+		<input type='button' tabindex="2" id='newWordButton' value='Get New Word' onclick='Flashcards.newWord()'></input>
+
+		</br>
+		</br>
+		
+		<label for="dotPattern">Dot Pattern:</label>
+		<input type='text' tabindex="3" id='dotPattern'></input>
+		</br>
+		</br>
+		
+		<label for="answer">Correct Answer:</label>
+		<input type='text' tabindex="4" id='answer'></input>
+		</br>
+		</br>
+		
+		<label for="score">Current Score:</label>
+		<input type='text' tabindex="4" id='score'></input>
+		</br>
+		</br>
+		
+		<label for="alert">Alerts:</label>
+		<input type='text' tabindex="5" id='alert'></input>
+		</br>
+		</br>
+		
+
+		<label for="userGuess">User's Guess:</label>
+	
+		<!--
+		data-onsubmit is used by Hotkeys.js in order to run a particular function when the enter key is pressed
+		the reason why we are just focusing the button is because the keypress event will instantly trigger the button
+		-->
+		<input type='text' tabindex="6" data-onsubmit="Form.setFocus(Ids.BUTTON_CHECK_GUESS)" id='userGuess'></input>
+		<input type='button' tabindex="7" id='checkGuess' onclick='Flashcards.guessCurrentWord()' value='Check Guess'></input>
+
+	
+		</br>
+		</br>
+		
+		<label for="grade">Braille Grade:</label>
+		<input type='text' tabindex="8" onchange="Flashcards.updateGrade()" id='grade' value='1'></input>
+		</br>
+		</br>
+		
+		<label for="maxWordLength">Maximum Word Length:</label>
+		<input type='text' tabindex="9" onchange="Form.updateMaxWordLength()" id='maxWordLength' value='12'></input>
+		</br>
+		</br>
+
+		<!--
+		data-onsubmit is used by Hotkeys.js so that when the enter key is pressed the function runs
+		the reason why focus is being set is because the enter key press is carried
+		this prevents the button that is focused later on from being pressed instantly
+		-->
+		<label for="customWordEntry">Custom Word Entry:</label>
+		<input type='text' tabindex="10" data-onsubmit="Form.setFocus(Ids.BUTTON_CUSTOM_WORD)" id='customWordEntry'></input>
+		<input type='button' tabindex="11" value='Use' id='useCustomWord' onclick='Flashcards.newWord(true)'></input>
+		</br>
+		</br>
+
+		<label for="dictionary1Loader" id="dictionary1LoaderLabel">Load Grade 1 Dictionary:</label>
+		<input type='file' tabindex="12" id='dictionary1Loader' value="load grade 1 dictionary" onchange='FileIO.uploadDictionary(this,Flashcards.UDgrade1,1)'></input>
+
+		</br>
+		
+		<label for="dictionary2Loader">Load Grade 2 Dictionary:</label>
+		<input type='file' tabindex="13" id='dictionary2Loader' value="load grade 2 dictionary" onchange='FileIO.uploadDictionary(this,Flashcards.UDgrade2,2)'></input>
+
+		</br>
+
+		<label for='audioSelector'>Audio Type:</label>
+		<select id='audioSelector' tabindex="14" onchange='Audio.switch(this.value)'>
+
+		</select>
+
+		<audio class='hidden' controls id='correctAudio'>
+
+			<source src='audio/chord.wav' type='audio/wav'>
+			<source src='audio/chord.mp3' type='audio/mpeg'>
+
+		</audio>
+
+		<audio class='hidden' controls id='incorrectAudio'>
+
+			<source src='audio/DingDong.wav' type='audio/wav'>
+			<source src='audio/DingDong.mp3' type='audio.mpeg'>
+
+		</audio>
+
+	</body>
+
+</html>
