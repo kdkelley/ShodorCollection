@@ -1,4 +1,4 @@
-This was the quick and dirty testbed for the very first real workaround I ever used in real code.
+This was the quick and dirty testbed for the very first real workaround I ever used in real code (2012-2013 era, when I was a volunteer intern at Shodor, before becoming a paid intern).
 
 We were converting legacy Java Applets to Javascript using GWT, however, whenever Java's INTEGER.MAX_VALUE was used, GWT would inject the constant 2147483647, even though what we really wanted was, based on the current environment (javascript) the highest integer with precision.
 
