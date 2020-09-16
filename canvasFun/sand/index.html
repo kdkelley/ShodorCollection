@@ -1,0 +1,117 @@
+<html>
+
+	<head>
+
+		<style>
+
+		#canvas {
+
+			border: 1px solid black;
+
+		}
+
+		</style>
+
+		<script>
+
+			var canvas;
+			var ctx;
+			var particleList = [];
+
+			function inheritsFrom(child, parent) {
+
+				child.prototype = Object.create(parent.prototype);
+
+			}
+
+			function init() {
+
+				canvas = document.getElementById("canvas");
+				ctx = canvas.getContext("2d");
+
+			}
+
+			function drawPixel(x, y, color) {
+
+				ctx.fillStyle = color;
+				ctx.fillRect(x,y,1,1);
+
+			}
+
+			function Particle() {
+
+				var x = -1;
+				var y = -1;
+				var fixed = true;
+
+				this.setX = function(n) {
+
+					x=n;
+
+				}
+
+				this.getY = function() {
+
+					return y;
+
+				}
+
+				this.setY = function(n) {
+
+					y=n;
+
+				}
+
+				this.isFixed = function() {
+
+					return fixed;
+
+				}
+
+				this.setFixed = function(b) {
+
+					fixed = b;
+
+				}
+
+			}
+
+			var p = new Particle();
+
+			Particle.prototype.getX = function(){
+
+				return this.x;
+
+			}
+
+			function Stone() {
+
+				var x;
+				var y;
+				var fixed;
+
+				this.tick = function() {
+
+					console.log("stone ticked");
+
+				}
+
+			}
+
+			inheritsFrom(Stone,Particle);
+
+		</script>
+
+	</head>
+
+	<body onload='init()'>
+
+		<canvas id='canvas' width=100 height=100>
+
+			your browser does not support canvas
+
+		</canvas>
+
+	</body>
+
+</html>

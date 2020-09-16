@@ -1,0 +1,49 @@
+<html>
+
+	<head>
+
+		<script type="text/javascript" src="js/LightObject.js"></script>
+		<script type="text/javascript">	
+	
+			var canvas;
+			var context;
+			var lightList = [];
+
+			function init() {
+
+				canvas = document.getElementById('lightCanvas');
+				context = canvas.getContext('2d');
+				lightList.push(new LightObject(50,150,10,"red",100,"red"));
+				lightList.push(new LightObject(50,50,10,"blue",50,"blue"));
+
+				tick();
+
+			}
+
+			function tick() {
+
+				context.fillStyle = "black";
+				context.globalAlpha = 1.0;
+				context.globalCompositeOperation = "source-over";
+				context.fillRect(0,0,canvas.width,canvas.height);
+				for(var i=0;i<lightList.length;i++) {
+
+					lightList[i].y += i;
+					lightList[i].draw(context);
+
+				}
+				requestAnimationFrame(tick);
+
+			}
+
+		</script>
+
+	</head>
+
+	<body onload="init()">
+
+		<canvas id="lightCanvas" width=500 height=500 style="border:1px solid black;">Get a browser that supports canvas you dummy</canvas>
+
+	</body>
+
+</html>

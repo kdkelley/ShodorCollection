@@ -1,0 +1,81 @@
+<html>
+
+	<head>
+
+		<title>Gravity Sim</title>
+
+		<script type="text/javascript" src="js/gravityObject.js"></script>
+		<script type="text/javascript" src="js/vector.js"></script>
+		<script type="text/javascript" src="js/Util.js"></script>
+		<script type="text/javascript" src="js/ObjCreation.js"></script>
+		<script type="text/javascript" src="js/Point.js"></script>
+
+		<script type="text/javascript">
+
+			var canvas;
+			var context;
+			var objectList = [];
+
+			function init() {
+		
+				canvas = document.getElementById('gravityCanvas');
+				context = canvas.getContext('2d');
+
+				canvas.addEventListener('mousedown', onMouseDown);
+				canvas.addEventListener('mouseup', onMouseUp);
+				
+				/*
+
+				objectList.push(new GravityObject(500,500,2000,new Vector(0,0)));
+				objectList[0].setFixed(true);
+				objectList.push(new GravityObject(500,700,5,new Vector(2,0)));
+				objectList.push(new GravityObject(300,900,5,new Vector(2,0)));
+				
+				*/
+				
+				//window.requestAnimationFrame(tick);
+				setInterval(tick,10);
+
+			}
+			function tick() {
+
+				context.clearRect(0,0,canvas.width,canvas.height);
+
+				for(var i=0;i<objectList.length;i++) {
+
+					objectList[i].calculateGravity(objectList);
+
+				}
+
+				for(var i=0;i<objectList.length;i++) {
+
+					objectList[i].updatePosition(context);
+					objectList[i].velocity.draw(objectList[i].x,objectList[i].y,10,context);
+
+				}
+
+				//window.requestAnimationFrame(tick);
+
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+
+		<canvas id="gravityCanvas" width=1000 height=1000>Canvas isn't supported by your browser</canvas>
+		</br>
+		<input type='button' onclick='setNewObjectMass(1)' value='1'></input>
+		<input type='button' onclick='setNewObjectMass(10)' value='10'></input>
+		<input type='button' onclick='setNewObjectMass(100)' value='100'></input>
+		<input type='button' onclick='setNewObjectMass(1000)' value='1000'></input>
+		<input type='button' onclick='setNewObjectMass(10000)' value='10000'></input>
+		</br>
+		<input type='text' onchange='setNewObjectMass(parseInt(this.value,10))' value='1'></input>
+		</br>
+		fixed:<input type='checkbox' id='fixed'></input>
+		</br>
+		<input type='button' onclick='clearObjects()' value='Clear'></input>
+
+	</body
+
+</html>

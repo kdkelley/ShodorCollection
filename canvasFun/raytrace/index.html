@@ -1,0 +1,99 @@
+<html>
+
+	<head>
+
+		<script type="text/javascript" src="js/LightObject.js"></script>
+		<script type="text/javascript" src="js/DarkRect.js"></script>
+		<script type="text/javascript" src="js/Point.js"></script>
+		<script type="text/javascript" src="js/Util.js"></script>
+		<script type="text/javascript">
+
+			var canvas;
+			var context;
+			var darkObjectList = [];
+			var lightObjects = [];
+			var startTime = Date.now();
+
+			function init() {
+
+				canvas = document.getElementById("rayTraceCanvas");
+				context = canvas.getContext('2d');
+
+				lightObjects.push(new LightObject(0,220,10,"blue",500,"red"));
+				//darkObjectList.push(new DarkRect(250,250,500,500,"black"));
+				var rectPoints = [new Point(250,250),new Point(249,500),new Point(500,500), new Point(500,250), new Point(300,499), new Point(250,450), new Point(300,300)];
+				darkObjectList.push(new DarkRect(rectPoints,"black"));
+				var obj2Points = [new Point(25,25), new Point(25,50), new Point(50,50), new Point(750,40), new Point(1500,30), new Point(50,25)];
+				darkObjectList.push(new DarkRect(obj2Points,"green"));
+				var obj3Points = [new Point(700,100), new Point(700,200)];
+				darkObjectList.push(new DarkRect(obj3Points,"orange"));
+
+				//window.requestAnimationFrame(tick);
+				setInterval(tick, 1);
+				//testing();
+
+			}
+
+			function testing() {
+
+				var p1 = new Point(25,75);
+				var p2 = new Point(25,24);
+				var p3 = new Point(25,10);
+				//var p4 = new Point(50,50);
+				var r = new DarkRect(50,50,150,150,"black");
+
+				p1.draw(context);
+				p2.draw(context);
+				p3.draw(context);
+				//p4.draw(context);
+				//r.draw(context);
+
+				//getLineIntersect(p1,p2,p3,p4).draw(context);
+
+				drawLine(p1,p2, "red", context);
+				//drawLine(p3,p4, "red", context);
+				//r.getIntersects(p1,p2);
+
+				alert(p3.isOnLine(p1,p2));
+
+			}
+
+			function tick() {
+
+				//context.fillStyle="white";
+				context.clearRect(0,0,canvas.width,canvas.height);
+
+				for(var i=0;i<lightObjects.length;i++) {
+
+					lightObjects[i].pos.x += 1;
+					if(lightObjects[i].pos.x == 1000) {
+
+						alert((Date.now() - startTime) / 1000);
+
+					}
+					lightObjects[i].draw(context,darkObjectList);
+
+				}
+
+
+				for(var i=0;i<darkObjectList.length;i++) {
+
+					darkObjectList[i].draw(context);
+
+				}
+
+				//animationFrame = window.requestAnimationFrame(tick);
+
+			}
+
+		</script>
+
+	</head>
+
+	<body onload="init()">
+
+		<canvas width=1000 height=500 id="rayTraceCanvas" style="border:1px solid black;">GET A BROWSER THAT SUPPORTS CANVAS YOU CAVEMAN!</canvas>
+
+	</body>
+
+</html>

@@ -1,0 +1,133 @@
+<html>
+
+	<head>
+
+		<title>
+
+			Circle Fun
+
+		</title>
+
+		<script>
+
+			var context;
+			var canvas;
+			var circleList = [];
+			var nextCircle = 0;
+
+			function getRandomInt(min, max) {
+
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+
+			}
+
+			function init() {
+
+				canvas = document.getElementById('circleCanvas');
+				context = canvas.getContext("2d");
+
+				//context.rect(20,20,150,100);
+				//var myCircle = new Circle(100,100,50,"green");
+				//myCircle.draw(context);
+
+				setInterval(function(){tick()}, 100);
+
+			}
+
+			function distanceBetween(x1,y1,x2,y2) {
+
+				var dx = x1 - x2;
+				var dy = y1 - y2;
+
+				return Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
+
+			}
+
+			function tick() {
+
+				if(nextCircle == 0) {
+
+					circlex = getRandomInt(0,canvas.width);
+					circley = getRandomInt(0,canvas.height);
+
+					circleList.push(new Circle(circlex,circley,0,getRandomColor()));
+					nextCircle = getRandomInt(1,4);
+
+				}else {
+
+					nextCircle -= 1;
+
+				}
+
+				for(var i=0;i<circleList.length;i++) {
+
+					circleList[i].radius += 1;
+					if(circleList[i].radius > circleList[i].maxRadius) {
+
+						circleList.splice(i,1);
+
+					}
+					circleList[i].draw(context);
+
+				}
+
+			}
+
+			function getRandomColor() {
+
+				var red = getRandomInt(0,16);
+				var green = getRandomInt(0,16);
+				var blue = getRandomInt(0,16);
+
+				return "#" + red.toString(16) + green.toString(16) + blue.toString(16);
+
+			}
+
+			function Circle(x, y, radius, color) {
+
+				this.x = x;
+				this.y = y;
+				this.radius = radius;
+				this.color = color;
+				var distances = [];
+				distances[0] = distanceBetween(this.x,this.y,0,0);
+				distances[1] = distanceBetween(this.x,this.y,canvas.width,0);
+				distances[2] = distanceBetween(this.x,this.y,canvas.width,canvas.height);
+				distances[3] = distanceBetween(this.x,this.y,0,canvas.height);
+				this.maxRadius = distances[0];
+
+				for(var i=1;i<4;i++) {
+
+					if(this.maxRadius < distances[i]) {
+
+						this.maxRadius = distances[i];
+
+					}
+
+				}
+
+				this.draw = function(ctx) {
+
+					ctx.beginPath();
+					ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+					ctx.fillStyle = this.color;
+					ctx.fill();
+					ctx.strokeStyle=this.color;
+					ctx.stroke();
+					ctx.closePath();
+
+				}
+
+			}
+
+		</script>
+
+	</head>
+
+	<body onload="init()">
+
+		<canvas border="1px solid black" id="circleCanvas" width="1250" height="950">Go find a browser that supports canvas</canvas>
+
+	</body>
+
+</html>

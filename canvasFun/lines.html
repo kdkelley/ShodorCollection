@@ -1,0 +1,106 @@
+<html>
+
+	<head>
+
+		<title>
+
+			Line Fun
+
+		</title>
+
+		<script>
+
+			var context;
+			var canvas;
+			var headx;
+			var heady;
+			var tailx;
+			var taily;
+
+			function getRandomInt(min, max) {
+
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+
+			}
+
+			function init() {
+
+				canvas = document.getElementById('circleCanvas');
+				context = canvas.getContext("2d");
+
+				headx = getRandomInt(0,canvas.width);
+				heady = getRandomInt(0,canvas.height);
+
+				setInterval(function(){tick()}, 10);
+
+			}
+
+			function inBounds(x, y) {
+
+				if(x < 0 || y < 0) {
+
+					return false;
+
+				}
+
+				if(x > canvas.width || y > canvas.height) {
+
+					return false;
+
+				}
+
+				return true;
+
+			}
+
+			function tick() {
+	
+				tailx = -canvas.width;
+				taily = -canvas.height;
+
+				while(!inBounds(tailx, taily)) {
+
+				var theta = getRandomInt(0,359);
+				var length = getRandomInt(10,100);
+
+				tailx = (Math.cos(theta) * length) + headx;
+				taily = (Math.sin(theta) * length) + heady;
+
+				}
+
+				//tailx = getRandomInt(0,canvas.width);
+				//taily = getRandomInt(0,canvas.height);
+
+				context.beginPath();
+				context.moveTo(headx,heady);
+				context.lineTo(tailx,taily);
+				context.strokeStyle = getRandomColor();
+				context.stroke();
+				context.closePath();
+
+				headx = tailx;
+				heady = taily;
+
+			}
+
+			function getRandomColor() {
+
+				var red = getRandomInt(0,16);
+				var green = getRandomInt(0,16);
+				var blue = getRandomInt(0,16);
+
+				return "#" + red.toString(16) + green.toString(16) + blue.toString(16);
+
+			}
+
+		</script>
+
+	</head>
+
+	<body onload="init()">
+
+		<canvas border="1px solid black" id="circleCanvas" width="1000" height="500">Go find a browser that supports canvas</canvas>
+
+	</body>
+
+</html>

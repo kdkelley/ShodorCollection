@@ -1,0 +1,125 @@
+<html>
+
+	<head>
+
+		<title>Gravity Sim</title>
+
+		<script type="text/javascript" src="js/gravityObject.js"></script>
+		<script type="text/javascript" src="js/vector.js"></script>
+		<script type="text/javascript" src="js/Util.js"></script>
+		<script type="text/javascript" src="js/ObjCreation.js"></script>
+
+		<script type="text/javascript">
+
+			var canvas;
+			var context;
+			var objectList = [];
+			var ticks = 0;
+			var startTime = Date.now();
+
+			function init() {
+		
+				canvas = document.getElementById('gravityCanvas');
+				context = canvas.getContext('2d');
+
+				canvas.addEventListener('mousedown', onMouseDown);
+				canvas.addEventListener('mouseup', onMouseUp);
+			
+				var numBodies = 5000;
+
+				for(var i=0;i<numBodies;i++) {
+
+					var xOffset = ((Math.random() * 2) - 1) * 500;
+					var yOffset = ((Math.random() * 2) - 1) * 500;
+					var x = (canvas.width / 2) + xOffset;
+					var y = (canvas.height / 2) + yOffset;
+					var randVelocity = new Vector(1,0);
+					randVelocity.setTheta(thetaBetween(x,y,canvas.width/2,canvas.height/2) + Math.PI/2);
+					randVelocity.setMag(Math.random() * 5);
+
+					objectList.push(new GravityObject((canvas.width/2) + xOffset, (canvas.height/2) + yOffset, 1, randVelocity));
+
+				}
+
+				var sun = new GravityObject(canvas.width/2,canvas.height/2,1000,new Vector(0,0));
+				sun.setFixed(true);
+				objectList.push(sun);
+				
+
+				/*
+				
+				objectList[0].setFixed(true);
+				objectList.push(new GravityObject(canvas.width/2,(canvas.height/2) + 200,5,new Vector(2,0)));
+				objectList.push(new GravityObject((canvas.width/2) - 200,(canvas.width /2) + 400,5,new Vector(2,0)));
+				
+				*/
+
+				//window.requestAnimationFrame(tick);
+				setInterval(tick,1);
+
+			}
+			function tick() {
+
+				context.clearRect(0,0,canvas.width,canvas.height);
+
+				for(var i=0;i<objectList.length;i++) {
+
+					//objectList[i].clearDraw(context);
+					//objectList[i].velocity.clearDraw(objectList[i].x,objectList[i].y,10,context);
+					objectList[i].calculateGravity(objectList);
+
+				}
+
+				for(var i=0;i<objectList.length;i++) {
+
+					objectList[i].updatePosition(context);
+
+					if(document.getElementById('velocityDraw').checked) {
+
+						objectList[i].velocity.draw(objectList[i].x,objectList[i].y,10,context);
+
+					}
+
+				}
+
+				/*
+
+				if(ticks == 1000) {
+
+					alert((Date.now() - startTime) / 1000);
+
+				}
+
+				*/
+
+				ticks++;
+
+				//window.requestAnimationFrame(tick);
+
+			}
+		</script>
+	</head>
+
+	<body onload="init()">
+
+		<canvas id="gravityCanvas" width=1000 height=1000>Canvas isn't supported by your browser</canvas>
+		</br>
+		<input type='button' onclick='setNewObjectMass(1)' value='1'></input>
+		<input type='button' onclick='setNewObjectMass(10)' value='10'></input>
+		<input type='button' onclick='setNewObjectMass(100)' value='100'></input>
+		<input type='button' onclick='setNewObjectMass(1000)' value='1000'></input>
+		<input type='button' onclick='setNewObjectMass(10000)' value='10000'></input>
+		</br>
+		<input type='text' id='massDisp' onchange='setNewObjectMass(parseInt(this.value,10))' value='1'></input>
+		</br>
+		fixed:<input type='checkbox' id='fixed'></input>
+		</br>
+		<input type='button' onclick='clearObjects()' value='Clear'></input>
+		<input type='button' onclick='cleanObjects()' value='Clean'></input>
+		</br>
+		</br>
+		draw velocity vector:<input type='checkbox' id='velocityDraw' checked='true'></input>
+
+	</body
+
+</html>
