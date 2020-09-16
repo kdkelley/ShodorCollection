@@ -1,0 +1,62 @@
+<html>
+
+	<head>
+
+		<script type="text/javascript">
+
+			x = (getMax() / (Math.pow(2,10)));
+
+			alert(x);
+
+			x *= 2;
+
+			alert(x);
+
+			function canAddOne(n) {
+
+				if(n + 1 == n) {
+
+					return false;
+
+				}else {
+
+					return true;
+
+				}
+
+			}
+
+
+			function getMax() {
+
+				n = 1;
+
+				  while(!(!canAddOne(n) && canAddOne(n-1))) {
+
+					  if(canAddOne(n)) {
+
+						  n *= 2;
+
+					  }else if(!canAddOne(n) && !canAddOne(n-1)) {
+
+						  n *= 0.75;
+
+					  }
+
+				  }
+
+				return n;
+
+			}
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<span id='max'></span>
+
+	</body>
+
+</html>
