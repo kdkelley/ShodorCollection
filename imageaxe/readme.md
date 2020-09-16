@@ -1,4 +1,4 @@
-This was a quick internal tool that I threw together because the same problem kept coming up for some reason.
+This was a quick internal tool that I threw together because the same need to cut images into pieces kept coming up for some reason.
 
 For a lot of workshops there were ideas based around slicing an image into various pieces, which is what this quick little tool will do (mostly) for you, in a relatively easy to use format.
 
