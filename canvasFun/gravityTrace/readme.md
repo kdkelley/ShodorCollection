@@ -1,0 +1,1 @@
+This is similar to gravity, and was originally going to be an attempt at making the traces bend based upon gravity (as well as other improvements) but I never got around to it. Until then do enjoy the fun patterns that the rays can make.
