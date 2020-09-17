@@ -1,0 +1,1 @@
+This was a sort of experiment when it came to highly primitive ray tracing in 2D. It is horribly inefficient and has more than a few issues, but it does actually work. A lot of the math I worked on with a friend to get right.
